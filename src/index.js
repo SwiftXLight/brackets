@@ -1,7 +1,20 @@
 module.exports = (str, bracketsConfig) => {
-  for (let i = 0; i < 30; i++)
-    bracketsConfig.map(bracketsConfig => bracketsConfig[0] + bracketsConfig[1]).forEach(
-      pair => (str = str.includes(pair) ? str.split(pair).join('') : str)
-    );
-  return str ? false : true;
+    let stack = [];
+    let map = {
+        '(': ')',
+        '[': ']',
+        '{': '}'
+    }
+
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === '(' || str[i] === '{' || str[i] === '[') {
+            stack.push(str[i]);
+        } else {
+            let last = stack.pop();
+            if (str[i] !== map[last]) { return false };
+        }
+    }
+    if (stack.length !== 0) { return false };
+
+    return true;
 };
